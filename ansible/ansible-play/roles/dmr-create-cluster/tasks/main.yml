@@ -1,0 +1,40 @@
+---
+- name: Create DMR Clusters
+  block:
+    - name: "Creating DMR Cluster {{ cluster.cluster_name }}"
+      uri:
+        url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters"
+        method: POST
+        user: "{{ semp_username}}"
+        password: "{{ semp_password }}"
+        headers:
+          Content-Type: "application/json"
+        body:
+          dmrClusterName: "{{ cluster.cluster_name }}"
+          nodeName: "{{ cluster.node_name }}"
+          authenticationBasicPassword: "{{ cluster.password }}"
+          authenticationClientCertEnabled: false
+          tlsServerCertEnforceTrustedCommonNameEnabled: false
+          tlsServerCertValidateDateEnabled: false
+          tlsServerCertValidateNameEnabled: false
+          directOnlyEnabled: true
+          enabled: false
+        body_format: json
+        force_basic_auth: yes
+        status_code: 200,400
+        return_content: yes
+      register: result
+      #ignore_errors: True
+      #retries: 3
+      #delay: 10
+
+  #always:
+  #  - name: "Script Results"
+  #    debug:
+  #        var: result.json
+
+- name: Response
+  debug:
+   var: result.json.meta.error.status
+  when: result.json.meta.responseCode != 200
+

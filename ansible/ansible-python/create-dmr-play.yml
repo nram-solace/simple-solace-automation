@@ -1,0 +1,34 @@
+---
+#
+# Create DMR Playbook
+# calls tasks/create-dmr-tasks.yml
+#
+# Ramesh Natarajan (nram), Solace
+
+- name: "Create DMR Playbook"
+  hosts: solace
+  connection: local
+  gather_facts: false
+
+  vars:
+    # ----------- Script specific vars -----------------------------------------
+    play_name: create-dmr
+    play_tasks: "roles/solace/tasks/{{ play_name }}-tasks.yml"
+    fail_status_file: "roles/solace/log/{{ play_name }}.failed"
+  tasks:
+    - name: "Run Script Tasks {{ script_tasks }}"
+      ansible.builtin.import_tasks: "{{ play_tasks }}"
+  roles:
+    - solace
+
+# -------------------------------------------------------------------
+# post processing
+#
+- name: "Post Processing Tasks"
+  hosts: repohost
+  gather_facts: false
+  tasks:
+    - name: "Copy Zip files to {{ inventory_hostname }}"
+      ansible.builtin.import_tasks: "roles/solace/tasks/remote-copy-files.yml"
+  roles:
+    - solace

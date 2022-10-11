@@ -1,0 +1,3 @@
+
+
+ansible-playbook -i inventory-local.ini setup-dmr.yml

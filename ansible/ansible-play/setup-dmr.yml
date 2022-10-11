@@ -1,0 +1,167 @@
+---
+# Setup DMR Cluster
+# Status: OK
+# Requires:
+#   inventory.ini
+#   vars/dmr.yml
+#   roles/dmr-*/tasks/main.yml
+# Running:
+# ▶ ansible-playbook -i inventory.ini setup-dmr.yml
+#
+# nram, Solace PSG
+
+#---------------------------------------------------------------
+# (1) Setup Clusters
+#
+- name: "Setup Cluster - Local"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create local cluster
+      include_role:
+        name: dmr-create-cluster
+      vars:
+        cluster: "{{ dmr.local_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+- name: "Setup Cluster - Remote"
+  hosts: remote
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create remote cluster
+      include_role:
+        name: dmr-create-cluster
+      vars:
+        cluster: "{{ dmr.remote_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+#-------------------------------------------------------------------
+# (2) Setup Links
+#
+- name: "Setup Link - Local"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create external link for local cluster
+      include_role:
+        name: dmr-create-link-ext
+      vars:
+        cluster: "{{ dmr.local_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+- name: "Setup Link - Remote"
+  hosts: remote
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create external link for remote cluster
+      include_role:
+        name: dmr-create-link-ext
+      vars:
+        cluster: "{{ dmr.remote_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+#-------------------------------------------------------------------
+# (3) Setup Bridges & remote address
+#
+- name: "Setup Bridge - Local"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create bridge for local cluster
+      include_role:
+        name: dmr-create-bridge
+      vars:
+        cluster: "{{ dmr.local_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+- name: "Setup remote address - Local"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create remote address local cluster
+      include_role:
+        name: dmr-create-remote-addr
+      vars:
+        cluster: "{{ dmr.local_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+- name: "Setup Bridge - Remote"
+  hosts: remote
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create bridge for remote cluster
+      include_role:
+        name: dmr-create-bridge
+      vars:
+        cluster: "{{ dmr.remote_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+#---------------------------------------------------------------
+# (4) Enable everything
+#
+- name: "Enable Cluster - Local"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create local cluster
+      include_role:
+        name: dmr-enable-cluster
+      vars:
+        cluster: "{{ dmr.local_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"
+
+- name: "Enable Cluster - Remote"
+  hosts: remote
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml
+  tasks:
+    - name: Create remote cluster
+      include_role:
+        name: dmr-enable-cluster
+      vars:
+        cluster: "{{ dmr.remote_cluster }}"
+    - name: "Pause for {{ general.sleep }} seconds"
+      ansible.builtin.pause:
+        seconds: "{{ general.sleep }}"

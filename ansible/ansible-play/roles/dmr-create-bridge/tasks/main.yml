@@ -1,0 +1,34 @@
+---
+- name: Create bridge
+  block:
+    - name: "Creating bridge for VPN {{ cluster.vpn }} on Cluster {{ cluster.cluster_name }}"
+      uri:
+        url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/msgVpns/{{ cluster.vpn }}/dmrBridges"
+        method: POST
+        user: "{{ semp_username}}"
+        password: "{{ semp_password }}"
+        headers:
+          Content-Type: "application/json"
+        body:
+          msgVpnName: "{{ cluster.vpn }}"
+          remoteMsgVpnName: "{{ cluster.remote_vpn }}"
+          remoteNodeName: "{{ cluster.remote_node_name }}"
+        body_format: json
+        force_basic_auth: yes
+        status_code: 200,400
+        return_content: yes
+      register: result
+      #ignore_errors: True
+      #retries: 3
+      #delay: 10
+
+  #always:
+  #  - name: "Script Results"
+  #    debug:
+  #        var: result.json
+
+- name: Response
+  debug:
+   var: result.json.meta.error.status
+  when: result.json.meta.responseCode != 200
+

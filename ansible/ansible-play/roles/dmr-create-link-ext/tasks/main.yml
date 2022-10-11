@@ -1,0 +1,40 @@
+---
+- name: Create external link
+  block:
+    - name: "Creating external link for DMR Cluster {{ cluster.cluster_name }}"
+      uri:
+        url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters/{{ cluster.cluster_name }}/links"
+        method: POST
+        user: "{{ semp_username}}"
+        password: "{{ semp_password }}"
+        headers:
+          Content-Type: "application/json"
+        body:
+          dmrClusterName: "{{ cluster.cluster_name }}"
+          remoteNodeName: "{{ cluster.remote_node_name }}"
+          authenticationBasicPassword: "{{ cluster.remote_password }}"
+          initiator: "{{ cluster.initiator }}"
+          "authenticationScheme": "basic"
+          "span": "external"
+          "transportCompressedEnabled": false
+          "transportTlsEnabled": false
+          "enabled": false
+        body_format: json
+        force_basic_auth: yes
+        status_code: 200,400
+        return_content: yes
+      register: result
+      #ignore_errors: True
+      #retries: 3
+      #delay: 10
+
+  #always:
+  #  - name: "Script Results"
+  #    debug:
+  #        var: result.json
+
+- name: Response
+  debug:
+   var: result.json.meta.error.status
+  when: result.json.meta.responseCode != 200
+

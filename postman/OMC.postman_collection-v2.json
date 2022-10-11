@@ -1,0 +1,717 @@
+{
+	"info": {
+		"_postman_id": "9da8ae74-fb87-4e7d-bd9d-e42587b1bb8c",
+		"name": "OMC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4510215"
+	},
+	"item": [
+		{
+			"name": "Setup DMR",
+			"item": [
+				{
+					"name": "create cluster",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"nodeName\": \"{{nodeName}}\",\n    \"authenticationBasicPassword\": \"{{authenticationBasicPassword}}\",\n    \"authenticationClientCertEnabled\": false,\n    \"tlsServerCertEnforceTrustedCommonNameEnabled\": false,\n    \"tlsServerCertValidateDateEnabled\": false,\n    \"tlsServerCertValidateNameEnabled\": false,\n    \"directOnlyEnabled\": true,\n    \"enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create remote cluster",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{remoteDmrClusterName}}\",\n    \"nodeName\": \"{{remoteNodeName}}\",\n    \"authenticationBasicPassword\" : \"{{remoteAuthenticationBasicPassword}}\",\n    \"tlsServerCertEnforceTrustedCommonNameEnabled\": false,\n    \"tlsServerCertValidateDateEnabled\": false,\n    \"authenticationClientCertEnabled\": false,\n    \"tlsServerCertValidateNameEnabled\": false,\n    \"directOnlyEnabled\": true,\n    \"enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create external link",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"remoteNodeName\": \"{{remoteNodeName}}\",\n    \"authenticationBasicPassword\" : \"{{remoteAuthenticationBasicPassword}}\",\n    \"initiator\": \"local\",\n    \"authenticationScheme\": \"basic\",\n    \"span\": \"external\",\n    \"transportCompressedEnabled\": false,\n    \"transportTlsEnabled\": false,\n    \"enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}/links",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}",
+								"links"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create remote link",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{remoteDmrClusterName}}\",\n    \"remoteNodeName\": \"{{nodeName}}\",\n    \"authenticationBasicPassword\" : \"{{authenticationBasicPassword}}\",\n    \"initiator\": \"remote\",\n    \"authenticationScheme\": \"basic\",\n    \"span\": \"external\",\n    \"transportCompressedEnabled\": false,\n    \"transportTlsEnabled\": false,\n    \"enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters/{{remoteDmrClusterName}}/links",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{remoteDmrClusterName}}",
+								"links"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create bridge",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"msgVpnName\": \"{{msgVpnName}}\",\n    \"remoteMsgVpnName\": \"{{remoteMsgVpnName}}\",\n    \"remoteNodeName\": \"{{remoteNodeName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/msgVpns/{{msgVpnName}}/dmrBridges",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"msgVpns",
+								"{{msgVpnName}}",
+								"dmrBridges"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create remote address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"remoteNodeName\": \"{{remoteNodeName}}\",\n    \"remoteAddress\": \"{{remoteAddress}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}/remoteAddresses",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}",
+								"links",
+								"{{remoteNodeName}}",
+								"remoteAddresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create remote bridge",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"msgVpnName\": \"{{remoteMsgVpnName}}\",\n    \"remoteMsgVpnName\": \"{{msgVpnName}}\",\n    \"remoteNodeName\": \"{{nodeName}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/msgVpns/{{remoteMsgVpnName}}/dmrBridges",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"msgVpns",
+								"{{remoteMsgVpnName}}",
+								"dmrBridges"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enable link",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"remoteNodeName\": \"{{remoteNodeName}}\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}",
+								"links",
+								"{{remoteNodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enable remote link",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{remoteDmrClusterName}}\",\n    \"remoteNodeName\": \"{{nodeName}}\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters/{{remoteDmrClusterName}}/links/{{nodeName}}",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{remoteDmrClusterName}}",
+								"links",
+								"{{nodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enable cluster",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"nodeName\": \"{{nodeName}}\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enable remote cluster",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{remoteDmrClusterName}}\",\n    \"nodeName\": \"{{remoteNodeName}}\",\n    \"enabled\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters/{{remoteDmrClusterName}}",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{remoteDmrClusterName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Setup DMR with local and remote clusters, external links and bridges.\n\n\\*   DMR created with external links\n\\*   No GM - DirectOnly flag\n\\*   No TLS\n\\*   No Compression\n    \n\n**Note**:\n\nnodeName and remoteNodeName must match with \"show router-name\" output from Solace broker.\n\nUses camel-case variable names from env. (eg: msgVpnName and not VPN)",
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{cliPassword}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{cliUser}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "temp",
+			"item": [
+				{
+					"name": "create cluster tmp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"test-cluster\",\n    \"authenticationBasicPassword\": \"pass123\",\n    \"enabled\": false,\n    \"tlsServerCertEnforceTrustedCommonNameEnabled\": false,\n    \"tlsServerCertValidateDateEnabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/SEMP/v2/config/dmrClusters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"SEMP",
+								"v2",
+								"config",
+								"dmrClusters"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Remove DMR",
+			"item": [
+				{
+					"name": "DISABLE link",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dmrClusterName\": \"{{dmrClusterName}}\",\n    \"remoteNodeName\": \"{{remoteNodeName}}\",\n    \"enabled\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}",
+								"links",
+								"{{remoteNodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE remote dmr bridge",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{remoteConfigUrl}}/msgVpns/{{remoteMsgVpnName}}/dmrBridges/{{nodeName}}",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"msgVpns",
+								"{{remoteMsgVpnName}}",
+								"dmrBridges",
+								"{{nodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE dmr bridge",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{configUrl}}/msgVpns/{{msgVpnName}}/dmrBridges/{{remoteNodeName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"msgVpns",
+								"{{msgVpnName}}",
+								"dmrBridges",
+								"{{remoteNodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE remote link",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters/{{remoteDmrClusterName}}/links/{{nodeName}}",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{remoteDmrClusterName}}",
+								"links",
+								"{{nodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE link",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}",
+								"links",
+								"{{remoteNodeName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE cluster",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{configUrl}}/dmrClusters/{{dmrClusterName}}",
+							"host": [
+								"{{configUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{dmrClusterName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REMOVE remote cluster",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{remoteCliPassword}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{remoteCliUser}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{remoteConfigUrl}}/dmrClusters/{{remoteDmrClusterName}}",
+							"host": [
+								"{{remoteConfigUrl}}"
+							],
+							"path": [
+								"dmrClusters",
+								"{{remoteDmrClusterName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Remove DMR configs including links, bridges and cluster",
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{cliPassword}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{cliUser}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

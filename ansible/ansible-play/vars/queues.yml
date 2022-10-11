@@ -1,0 +1,28 @@
+---
+# Message VPN
+message_vpn:
+ vpn_name: "TestVPN"
+ authentication_type: "internal"
+ enabled: true
+ serviceWebPlainTextEnabled: true
+
+#queues
+queues:
+- queue_name: test-q1
+  subscription_topics:
+  - "test/ansible/1"
+  - "test/ansible/2"
+  access_type: "non-exclusive"
+  owner: "test-user"
+  ingress_enabled: true
+  egress_enabled: true
+  permission: "consume"
+- queue_name: test-q2
+  subscription_topics:
+  - "test1/>"
+  access_type: "non-exclusive"
+  owner: "test-user"
+  ingress_enabled: true
+  egress_enabled: true
+  permission: "consume"
+  

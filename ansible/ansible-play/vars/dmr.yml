@@ -1,0 +1,29 @@
+---
+#
+# input for DMR setup
+#
+general:
+ verbose: true
+ sleep: 0
+
+dmr:
+  local_cluster:
+    initiator: "local"
+    cluster_name: "Test-L1"
+    node_name: "solace-100141-test"
+    password: "local123"
+    vpn: "TestVPN"
+    remote_node_name: "solace-100141-nram"
+    remote_password: "remote123"
+    remote_vpn: "ProdVPN"
+    remote_address: "nram-latitude:55333"
+
+  remote_cluster:
+    initiator: "remote"
+    cluster_name: "Test-R1"
+    node_name: "solace-100141-nram"
+    password: "remote123"
+    vpn: "ProdVPN"
+    remote_node_name: "solace-100141-test"
+    remote_password: "local123"
+    remote_vpn: "TestVPN"

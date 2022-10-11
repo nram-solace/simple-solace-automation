@@ -1,0 +1,36 @@
+# Create Queue and subscription playbook
+# Status: OK
+# Required: 
+#   vars/queues.yml
+#   roles/create-queue/tasks/main.yml
+#   role/create-queue-subscriptions/tasks/main.yml
+---
+ - hosts: solace
+   connection: local
+   gather_facts: false
+   pre_tasks:
+    #- include_vars: vars/solace-env.yml
+    - include_vars: vars/test-vpn.yml
+
+   tasks:
+
+   - name: Create Queues
+     with_items: "{{ queues }}"
+     include_role:
+      name: create-queue
+     vars:
+      q: "{{ queue }}"
+      vpn: "{{ message_vpn.vpn_name }}"
+     loop_control:
+      loop_var: queue
+
+   - name: Create Queue Subscriptions
+     with_subelements: 
+      - "{{ queues }}"
+      - subscription_topics
+     include_role:
+      name: create-queue-subscription
+     vars:
+      q: "{{ item.0.queue_name }}"
+      topic: "{{ item.1 }}"
+      vpn: "{{ message_vpn.vpn_name }}"

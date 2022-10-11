@@ -1,0 +1,53 @@
+---
+- name: Enable DMR Cluster components
+  block:
+
+    - name: "Enable Link for cluster {{ cluster.cluster_name }}"
+      uri:
+        url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters/{{ cluster.cluster_name }}/links/{{ cluster.remote_node_name }}"
+        method: PATCH
+        user: "{{ semp_username}}"
+        password: "{{ semp_password }}"
+        headers:
+          Content-Type: "application/json"
+        body:
+          dmrClusterName: "{{ cluster.cluster_name }}"
+          remoteNodeName : "{{ cluster.remote_node_name }}"
+          enabled: true
+        body_format: json
+        force_basic_auth: yes
+        status_code: 200,400
+        return_content: yes
+      register: result
+
+    - name: "Enable DMR Cluster {{ cluster.cluster_name }}"
+      uri:
+        url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters/{{ cluster.cluster_name }}"
+        method: PATCH
+        user: "{{ semp_username}}"
+        password: "{{ semp_password }}"
+        headers:
+          Content-Type: "application/json"
+        body:
+          dmrClusterName: "{{ cluster.cluster_name }}"
+          nodeName: "{{ cluster.node_name }}"
+          enabled: true
+        body_format: json
+        force_basic_auth: yes
+        status_code: 200,400
+        return_content: yes
+      register: result
+      #ignore_errors: True
+      #retries: 3
+      #delay: 10
+
+  #always:
+  #  - name: "Script Results"
+  #    debug:
+  #        var: result.json
+
+- name: Response
+  debug:
+   var: result.json.meta.error.status
+  when: result.json.meta.responseCode != 200
+
