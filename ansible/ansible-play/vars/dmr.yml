@@ -6,24 +6,38 @@ general:
  verbose: true
  sleep: 0
 
+common:
+  # use same vpn
+  vpn: "default"
+  local: 
+    cluster_name: "nram-test-local"
+    node_name: "solace-100141-test"
+    cluster_password: "local123"
+  remote: 
+    cluster_name: "nram-test-remote"
+    node_name: "solace-100141-nram"
+    cluster_password: "remote123"
+    msg_host_port: "nram-latitude:55333"
+
+#-- Don't change below
 dmr:
   local_cluster:
     initiator: "local"
-    cluster_name: "Test-L1"
-    node_name: "solace-100141-test"
-    password: "local123"
-    vpn: "TestVPN"
-    remote_node_name: "solace-100141-nram"
-    remote_password: "remote123"
-    remote_vpn: "ProdVPN"
-    remote_address: "nram-latitude:55333"
+    cluster_name: "{{ common.local.cluster_name }}"
+    node_name: "{{ common.local.node_name }}"
+    password: "{{ common.local.cluster_password }}"
+    vpn: "{{ common.vpn }}"
+    remote_node_name: "{{ common.remote.node_name }}"
+    remote_password: "{{ common.remote.cluster_password }}"
+    remote_vpn: "{{ common.vpn }}"
+    remote_address: "{{ common.remote.msg_host_port }}"
 
   remote_cluster:
     initiator: "remote"
-    cluster_name: "Test-R1"
-    node_name: "solace-100141-nram"
-    password: "remote123"
-    vpn: "ProdVPN"
-    remote_node_name: "solace-100141-test"
-    remote_password: "local123"
-    remote_vpn: "TestVPN"
+    cluster_name: "{{ common.remote.cluster_name }}"
+    node_name: "{{ common.remote.node_name }}"
+    password: "{{ common.remote.cluster_password }}"
+    vpn: "{{ common.vpn }}"
+    remote_node_name: "{{ common.local.node_name }}"
+    remote_password: "{{ common.local.cluster_password }}"
+    remote_vpn: "{{ common.vpn }}"

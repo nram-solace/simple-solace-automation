@@ -10,6 +10,16 @@
 #
 # nram, Solace PSG
 
+- name: "User inputs and configs"
+  hosts: local
+  connection: local
+  gather_facts: false
+  pre_tasks:
+    - include_vars: vars/dmr.yml  
+  tasks:
+    - name: "Vars"
+      ansible.builtin.debug:
+        msg: "Local Cluster : {{ dmr }}"
 #---------------------------------------------------------------
 # (1) Setup Clusters
 #
