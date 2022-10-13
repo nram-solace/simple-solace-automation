@@ -1,0 +1,82 @@
+{
+    "META" : "DMR with multiple remote links", 
+
+    "dmrCluster" : {
+        "local" : {
+            "cluster" : {
+                "initiator": "local",
+                "sempUrl" : "https://local.messaging.solace.cloud:943",
+                "sempUser" : "local-semp-username",
+                "sempPassword" : "**********",
+                "dmrClusterName": "local-cluster-name",
+                "nodeName" : "local-node-name",
+                "msgVpnName" : "local-vpn-name",
+                "authenticationBasicPassword": "**********",
+                "tlsTrustedCommonName": "*.messaging.solace.cloud"
+            },
+
+            "links" : [
+                {
+                    "remoteAddress": "remote1.messaging.solace.cloud",
+                    "remoteNodeName": "remote1-nodename",
+                    "remoteAuthenticationBasicPassword": "**********",
+                    "remoteMsgVpnName" : "remote-vpnname"
+                },
+                {
+                    "remoteAddress": "remote2.messaging.solace.cloud",
+                    "remoteNodeName": "remote2-nodename",
+                    "remoteAuthenticationBasicPassword": "**********",
+                    "remoteMsgVpnName" : "remote-vpnname"
+                }
+            ]
+        },
+
+        "remote" : {
+            "cluster" : {
+                "initiator": "remote",
+                "remoteAddress": "local.messaging.solace.cloud",
+                "remoteNodeName": "local-node-name",
+                "remoteAuthenticationBasicPassword": "**********",
+                "remoteMsgVpnName" : "local-vpn-name",
+                "tlsTrustedCommonName": "*.messaging.solace.cloud"
+            },
+
+            "links" : [
+                    {
+                        "initiator": "remote",
+                        "sempUrl" : "https://remote1.messaging.solace.cloud:943",
+                        "sempUser" : "remote1-semp-username",
+                        "sempPassword" : "**********" ,
+                        "dmrClusterName": "remote1-clustername",
+                        "nodeName": "remote1-nodename",
+                        "msgVpnName" : "remote-vpnname",
+                        "authenticationBasicPassword": "**********"
+                    },
+                    {
+                        "initiator": "remote",
+                        "sempUrl" : "https://remote2.messaging.solace.cloud:943",
+                        "sempUser" : "remote2-semp-username",
+                        "sempPassword" : "**********" ,
+                        "dmrClusterName": "remote2-clustername",
+                        "nodeName": "remote2-nodename",
+                        "msgVpnName" : "remote-vpnname",
+                        "authenticationBasicPassword": "**********"
+                    }
+            ]
+        }
+    },
+
+    "internal" : {
+        "META": "*** DONOT CHANGE THESE VALUES ***",
+        "sempDir" : "semp",
+        "configUrl" : "SEMP/v2/config",
+        "dmrCluster": "dmrClusters",
+        "externalLink": "dmrClusters/{{dmrClusterName}}/links",
+        "remoteAddress": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}/remoteAddresses",
+        "trustedCommonName": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}/tlsTrustedCommonNames",
+        "vpnDmrBridge": "msgVpns/{{msgVpnName}}/dmrBridges",
+        "enableLink": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}",
+        "enableCluster": "dmrClusters/{{dmrClusterName}}",
+        "okStatus" : [200, 400]
+    } 
+}

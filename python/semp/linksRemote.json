@@ -1,0 +1,11 @@
+{
+    "dmrClusterName": "",
+    "remoteNodeName": "",
+    "authenticationBasicPassword" : "",
+    "enabled": false,
+    "initiator": "local",
+    "authenticationScheme": "basic",
+    "span": "external",
+    "transportCompressedEnabled": false,
+    "transportTlsEnabled": false
+}

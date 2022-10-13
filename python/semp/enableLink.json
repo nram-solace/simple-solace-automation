@@ -1,0 +1,5 @@
+{
+    "dmrClusterName": "{{dmrClusterName}}",
+    "remoteNodeName": "{{remoteNodeName}}",
+    "enabled": true
+}

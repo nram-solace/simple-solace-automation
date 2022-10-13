@@ -1,0 +1,68 @@
+{
+    "META" : "Sample DMR config with single external link", 
+
+    "dmrCluster" : {
+        "local" : {
+            "cluster" : {
+                "initiator": "local",
+                "sempUrl" : "http://localhost:8080",
+                "sempUser" : "admin",
+                "sempPassword" : "admin",
+                "dmrClusterName": "nram-test-local",
+                "nodeName" : "solace-100141-test",
+                "msgVpnName" : "TestVPN",
+                "authenticationBasicPassword": "test123"            },
+
+            "links" : [
+                {
+                    "remoteAddress": "nram-latitude:55333",
+                    "remoteNodeName": "solace-100141-nram",
+                    "remoteAuthenticationBasicPassword": "test456",
+                    "remoteMsgVpnName" : "ProdVPN"
+                }
+            ]
+        },
+
+        "remote" : {
+            "cluster" : {
+                "initiator": "remote",
+                "remoteAddress": "localhost",
+                "remoteNodeName": "solace-100141-test",
+                "remoteAuthenticationBasicPassword": "test123",
+                "remoteMsgVpnName" : "TestVPN"
+            },
+
+            "links" : [
+                    {
+                        "initiator": "remote",
+                        "dmrClusterName": "nram-test-remote",
+                        "nodeName": "solace-100141-nram",
+                        "authenticationBasicPassword": "test456",
+                        "sempUrl" : "http://nram-latitude:8080",
+                        "sempUser" : "admin",
+                        "sempPassword" : "admin" ,
+                        "msgVpnName" : "ProdVPN",
+
+                        "remoteAddress": "localhost:55555",
+                        "remoteNodeName": "solace-100141-test",
+                        "remoteAuthenticationBasicPassword": "test123",
+                        "remoteMsgVpnName" : "TestVPN"
+                    }
+            ]
+        }
+    },
+
+    "internal" : {
+        "META": "*** DONOT CHANGE THESE VALUES ***",
+        "sempDir" : "semp",
+        "configUrl" : "SEMP/v2/config",
+        "dmrCluster": "dmrClusters",
+        "externalLink": "dmrClusters/{{dmrClusterName}}/links",
+        "remoteAddress": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}/remoteAddresses",
+        "trustedCommonName": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}/tlsTrustedCommonNames",
+        "vpnDmrBridge": "msgVpns/{{msgVpnName}}/dmrBridges",
+        "enableLink": "dmrClusters/{{dmrClusterName}}/links/{{remoteNodeName}}",
+        "enableCluster": "dmrClusters/{{dmrClusterName}}",
+        "okStatus" : [200, 400]
+    } 
+}

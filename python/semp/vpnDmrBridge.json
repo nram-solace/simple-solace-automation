@@ -1,0 +1,5 @@
+{
+    "msgVpnName": "{{msgVpnName}}",
+    "remoteMsgVpnName": "{{remoteMsgVpnName}}",
+    "remoteNodeName": "{{remoteNodeName}}"
+}
