@@ -1,7 +1,7 @@
 ---
 - name: Create DMR Clusters
   block:
-    - name: "Creating DMR Cluster {{ cluster.cluster_name }}"
+    - name: "Creating DMR Cluster {{ cluster.cluster_name }} with node {{ cluster.node_name }}"
       uri:
         url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters"
         method: POST

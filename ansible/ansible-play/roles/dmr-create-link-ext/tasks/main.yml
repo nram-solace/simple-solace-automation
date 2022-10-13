@@ -1,7 +1,7 @@
 ---
 - name: Create external link
   block:
-    - name: "Creating external link for DMR Cluster {{ cluster.cluster_name }}"
+    - name: "Creating external link for DMR Cluster {{ cluster.cluster_name }} to remote node {{ cluster.remote_node_name }}"
       uri:
         url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters/{{ cluster.cluster_name }}/links"
         method: POST

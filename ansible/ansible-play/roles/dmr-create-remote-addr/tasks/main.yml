@@ -1,7 +1,7 @@
 ---
 - name: Create remote address
   block:
-    - name: "Creating remote address for DMR Cluster {{ cluster.cluster_name }}"
+    - name: "Creating remote address for DMR Cluster {{ cluster.cluster_name }} to remote address {{ cluster.remote_address }} "
       uri:
         url: "http://{{ mgmt_host }}:{{ mgmt_port }}/SEMP/v2/config/dmrClusters/{{ cluster.cluster_name }}/links/{{ cluster.remote_node_name }}/remoteAddresses"
         method: POST
