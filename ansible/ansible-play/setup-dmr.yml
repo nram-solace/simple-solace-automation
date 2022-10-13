@@ -17,9 +17,12 @@
   pre_tasks:
     - include_vars: vars/dmr.yml  
   tasks:
-    - name: "Vars"
+    - name: "DMR Cluster inputs"
       ansible.builtin.debug:
-        msg: "Local Cluster : {{ dmr }}"
+        msg: 
+        - "Local  Cluster: {{ dmr.local_cluster.cluster_name }} Node: {{ dmr.local_cluster.node_name }} VPN: {{ dmr.local_cluster.vpn }}"
+        - "Remote Cluster: {{ dmr.remote_cluster.cluster_name }} Node: {{ dmr.remote_cluster.node_name }} VPN: {{ dmr.remote_cluster.vpn }}"
+
 #---------------------------------------------------------------
 # (1) Setup Clusters
 #
@@ -30,7 +33,7 @@
   pre_tasks:
     - include_vars: vars/dmr.yml
   tasks:
-    - name: Create local cluster
+    - name: "Create local cluster on {{ mgmt_host }}:{{mgmt_port}}"
       include_role:
         name: dmr-create-cluster
       vars:
@@ -46,7 +49,7 @@
   pre_tasks:
     - include_vars: vars/dmr.yml
   tasks:
-    - name: Create remote cluster
+    - name: "Create remote cluster on {{ mgmt_host }}:{{mgmt_port}}"
       include_role:
         name: dmr-create-cluster
       vars:
