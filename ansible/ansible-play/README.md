@@ -11,12 +11,8 @@ This folder has sample Ansible playbook, inventory, roles and other required fil
 ### Note
 
 - This implementation has no depedency on Python and SEMP requestes are triggerred (POST) directly from Ansible roles file.
-
 - This implementation is NOT modular doesn't use tasks. All operations are called from the playbook directly.
-
-## Env
-
-- Solace S/W Broker 10.0
+- This was tested on Ansible 2.13 and Solace S/W Broker 10.0
 
 ## Status
 
@@ -24,3 +20,7 @@ This folder has sample Ansible playbook, inventory, roles and other required fil
 - DMR Cluster creation : OK
 - Client Username + Profiles : Not-tested
 - VPN Creation : Not tested
+
+## Setup
+
+After unpacking the tar file, setup 
