@@ -6,7 +6,7 @@ Reference implementation and sample scripts to automate Solace Config management
 
 | Folder | Description | Status |
 | --- | --- | ---|
-| postman | postman collectioin | Tested successfully |
-| ansible/ansible-play | Ansbile playbooks (no Python) | Tested successfully |
-| python | Pure python implemention (no Ansible) | Tested successfully |
-| ansible/ansible-python | Ansible playbook with Python | Not implemented |
+| postman | Postman collection (JSON) | Tested successfully |
+| ansible/ansible-play | Ansbile playbooks (No Python) | Tested successfully |
+| python | Pure python implemention (No Ansible) | Tested successfully |
+| ansible/ansible-python | Ansible playbook wrapper to Python scripts | Not implemented |
